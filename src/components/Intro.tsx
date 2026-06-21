@@ -24,13 +24,13 @@ export default function Intro() {
     }
     document.body.style.overflow = "hidden";
     const timers: number[] = [];
-    // ignite lights one by one
+    // ignite lights one by one (deliberate pacing)
     for (let i = 1; i <= 5; i++) {
-      timers.push(window.setTimeout(() => setLit(i), 350 + i * 230));
+      timers.push(window.setTimeout(() => setLit(i), 500 + i * 320));
     }
-    // lights out, then lift the curtain
-    timers.push(window.setTimeout(() => setOut(true), 1850));
-    timers.push(window.setTimeout(() => setDone(true), 2150));
+    // hold on full grid, then lights out, then lift the curtain
+    timers.push(window.setTimeout(() => setOut(true), 2700));
+    timers.push(window.setTimeout(() => setDone(true), 3100));
     return () => timers.forEach(clearTimeout);
   }, []);
 
@@ -43,7 +43,6 @@ export default function Intro() {
       {!done && (
         <motion.div
           className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-carbon"
-          onClick={() => setDone(true)}
           exit={{ y: "-100%" }}
           transition={{ duration: 0.9, ease }}
         >
