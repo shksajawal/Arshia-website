@@ -7,7 +7,7 @@ import { arenas } from "@/lib/content";
 // src filled where we have a real photo; researcher stays a labeled placeholder.
 const shots = [
   { src: "/photos/track-helmet.jpg", note: "On track, helmet on" },
-  { src: undefined, note: "Lab / research setting — photo needed" },
+  { src: "/photos/researcher.jpg", note: "In the lab" },
   { src: "/photos/cockpit-look.jpg", note: "Leading at Box Motorsports" },
 ];
 
