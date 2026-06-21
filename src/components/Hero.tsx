@@ -33,6 +33,7 @@ export default function Hero() {
               muted
               loop
               playsInline
+              poster="/hero-poster.jpg"
             />
           ) : (
             // eslint-disable-next-line @next/next/no-img-element

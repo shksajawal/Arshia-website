@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Barlow, Barlow_Condensed, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/content";
@@ -35,6 +35,8 @@ export const metadata: Metadata = {
     template: `%s — ${site.name}`,
   },
   description: site.description,
+  alternates: { canonical: site.url },
+  category: "sports",
   keywords: [
     "Arshia Akhtar",
     "Pakistani woman racing driver",
@@ -61,6 +63,11 @@ export const metadata: Metadata = {
     images: ["/og.jpg"],
   },
   robots: { index: true, follow: true },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#060607",
+  colorScheme: "dark",
 };
 
 // Schema.org structured data so search engines understand who she is.

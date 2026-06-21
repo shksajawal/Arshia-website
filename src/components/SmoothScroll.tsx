@@ -14,7 +14,10 @@ export default function SmoothScroll({
 }) {
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
+    // Skip JS smooth-scroll on touch/mobile — native scroll is smoother there
+    // and avoids repaint flicker. Lenis only enhances desktop pointer scroll.
+    const coarse = window.matchMedia("(pointer: coarse)").matches;
+    if (reduce || coarse) return;
 
     const lenis = new Lenis({
       duration: 1.1,
