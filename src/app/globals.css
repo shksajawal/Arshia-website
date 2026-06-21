@@ -162,6 +162,17 @@ html.lenis body {
   outline-offset: 3px;
 }
 
+/* Mobile: neutralise transform-based entrance reveals. On iOS the page does a
+   full recomposite when a transform animation ends, which flashes the whole
+   screen. Forcing the final state (no transform) means there's no transform
+   animation to settle from — no flicker. Content simply appears. */
+@media (max-width: 768px) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /* Respect reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   *,

@@ -39,15 +39,11 @@ export default function Journey() {
             {journey.eyebrow}
           </motion.p>
           <motion.h2
-            className="font-display text-4xl sm:text-6xl"
+            className="reveal font-display text-4xl sm:text-6xl"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            transformTemplate={(_, t) =>
-              t && t !== "none" ? `${t} translateZ(0)` : "translateZ(0)"
-            }
-            style={{ backfaceVisibility: "hidden" }}
           >
             {journey.heading}
           </motion.h2>
@@ -157,17 +153,13 @@ function Milestone({
 
   return (
     <motion.div
-      className={`relative pl-10 md:w-1/2 md:pl-0 ${
+      className={`reveal relative pl-10 md:w-1/2 md:pl-0 ${
         i % 2 === 0 ? "md:pr-14 md:text-right" : "md:ml-auto md:pl-14"
       }`}
       initial={{ opacity: 0, y: 26 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.6, ease }}
-      transformTemplate={(_, t) =>
-        t && t !== "none" ? `${t} translateZ(0)` : "translateZ(0)"
-      }
-      style={{ backfaceVisibility: "hidden" }}
     >
       {/* node */}
       <motion.span

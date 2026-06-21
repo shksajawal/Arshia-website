@@ -5,7 +5,8 @@ import type { ReactNode } from "react";
 
 /**
  * Reusable scroll-into-view reveal. Fades + lifts content as it enters.
- * Used across every section so motion feels consistent, not random.
+ * The `reveal` class lets mobile CSS neutralise the transform (see globals.css)
+ * to avoid iOS end-of-animation full-screen flicker.
  */
 const variants: Variants = {
   hidden: { opacity: 0, y: 28 },
@@ -27,19 +28,12 @@ export default function Reveal({
 }) {
   return (
     <motion.div
-      className={className}
+      className={`reveal ${className ?? ""}`}
       variants={variants}
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-80px" }}
       transition={{ delay }}
-      // Keep the element on its own GPU layer permanently (translateZ(0)) so it
-      // never re-rasterizes when the reveal ends — kills the end-of-animation
-      // text flicker on mobile.
-      transformTemplate={(_, t) =>
-        t && t !== "none" ? `${t} translateZ(0)` : "translateZ(0)"
-      }
-      style={{ backfaceVisibility: "hidden" }}
     >
       {children}
     </motion.div>

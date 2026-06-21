@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import CinematicFX from "@/components/CinematicFX";
 import MagneticButton from "@/components/MagneticButton";
@@ -17,31 +16,15 @@ const ease = [0.16, 1, 0.3, 1] as const;
 
 export default function Hero() {
   const lines = [hero.line1, hero.line2, hero.line3, hero.line4];
-  // On mobile, show a static poster instead of an autoplaying video — a
-  // full-screen playing video recomposites on every scroll frame on iOS,
-  // which is the main cause of scroll flicker. (Swap happens behind the
-  // preloader, so it's invisible.)
-  const [mobile, setMobile] = useState(false);
-  useEffect(() => {
-    setMobile(window.matchMedia("(max-width: 768px)").matches);
-  }, []);
 
   return (
     <section
       id="top"
       className="relative isolate flex min-h-[100svh] flex-col justify-end overflow-hidden"
     >
-      {/* --- Base media layer: static poster on mobile, video on desktop --- */}
+      {/* --- Base media layer: autoplaying reel (poster shows until it plays) --- */}
       <div className="absolute inset-0 -z-30 bg-carbon">
-        {mobile ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src="/hero-poster.jpg"
-            alt="Arshia Akhtar in the cockpit"
-            className="h-full w-full object-cover"
-          />
-        ) : (
-          HERO_SRC &&
+        {HERO_SRC &&
           (HERO_IS_VIDEO ? (
             <video
               className="h-full w-full object-cover"
@@ -55,8 +38,7 @@ export default function Hero() {
           ) : (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={HERO_SRC} alt="Arshia Akhtar" className="h-full w-full object-cover" />
-          ))
-        )}
+          ))}
       </div>
 
       {/* --- Cinematic light-trails atmosphere --- */}

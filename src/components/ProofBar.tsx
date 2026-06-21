@@ -17,15 +17,11 @@ export default function ProofBar() {
         {proof.stats.map((s, i) => (
           <motion.div
             key={s.label}
-            className="px-5 py-8 text-center sm:px-8 sm:py-10"
+            className="reveal px-5 py-8 text-center sm:px-8 sm:py-10"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.08 }}
-            transformTemplate={(_, t) =>
-              t && t !== "none" ? `${t} translateZ(0)` : "translateZ(0)"
-            }
-            style={{ backfaceVisibility: "hidden" }}
           >
             <div className="font-display text-4xl text-accent sm:text-5xl">
               <RevText text={s.value} />
