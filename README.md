@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Arshia Akhtar — Personal Site
 
-## Getting Started
+World-class personal brand site for Arshia Akhtar — first Pakistani woman with an
+FIA racing license, cancer researcher, and owner of Box Motorsports.
 
-First, run the development server:
+**Stack:** Next.js 16 (App Router, static export) · Tailwind CSS v4 · Framer Motion · Lenis
+**Hosting:** Netlify (static) · **Repo:** GitHub
+
+## Run locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Build
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build    # outputs a static site to /out
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deploy to Netlify
 
-## Learn More
+1. Push this repo to GitHub.
+2. In Netlify: **Add new site → Import from GitHub** → pick the repo.
+3. Netlify reads `netlify.toml` automatically (build: `npm run build`, publish: `out`).
+4. The contact form uses **Netlify Forms** — submissions appear in the Netlify
+   dashboard under *Forms* with no backend code. (Set up notification emails there.)
 
-To learn more about Next.js, take a look at the following resources:
+## Editing content
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**All copy lives in [`src/lib/content.ts`](src/lib/content.ts).** Change text there —
+never inside components. Items marked `TODO` need real numbers/links before launch.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Assets to drop in before launch
 
-## Deploy on Vercel
+| File | What | Where it's used |
+|------|------|-----------------|
+| `public/hero.jpg` | High-res hero photo of Arshia | Uncomment the `<img>` layer in `src/components/Hero.tsx` |
+| `public/og.jpg` | 1200×630 social share card | Auto-used by Open Graph / Twitter meta |
+| `public/favicon.ico` | Favicon | Already wired |
+| Press logos | Replace text outlet names in `recognition.press` | `src/components/Recognition.tsx` |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Also update in `content.ts`: real email, social handles, the live domain (`site.url`),
+and confirm the stat numbers in `proof.stats`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Design system
+
+Defined in [`src/app/globals.css`](src/app/globals.css): carbon-black canvas, bone
+text, single racing-red accent (`--accent`), Anton display + Inter body. Mobile-first,
+reduced-motion aware, accessible focus states.
+
+## Structure
+
+```
+src/
+  app/
+    layout.tsx     # fonts, SEO metadata, Person JSON-LD, smooth scroll
+    page.tsx       # composes the homepage sections
+    globals.css    # design system
+  components/       # one file per section + Nav, Footer, Reveal, SmoothScroll
+  lib/content.ts    # ALL copy & data
+```
