@@ -33,6 +33,13 @@ export default function Reveal({
       whileInView="show"
       viewport={{ once: true, margin: "-80px" }}
       transition={{ delay }}
+      // Keep the element on its own GPU layer permanently (translateZ(0)) so it
+      // never re-rasterizes when the reveal ends — kills the end-of-animation
+      // text flicker on mobile.
+      transformTemplate={(_, t) =>
+        t && t !== "none" ? `${t} translateZ(0)` : "translateZ(0)"
+      }
+      style={{ backfaceVisibility: "hidden" }}
     >
       {children}
     </motion.div>

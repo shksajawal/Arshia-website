@@ -44,6 +44,10 @@ export default function Journey() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
+            transformTemplate={(_, t) =>
+              t && t !== "none" ? `${t} translateZ(0)` : "translateZ(0)"
+            }
+            style={{ backfaceVisibility: "hidden" }}
           >
             {journey.heading}
           </motion.h2>
@@ -160,6 +164,10 @@ function Milestone({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.6, ease }}
+      transformTemplate={(_, t) =>
+        t && t !== "none" ? `${t} translateZ(0)` : "translateZ(0)"
+      }
+      style={{ backfaceVisibility: "hidden" }}
     >
       {/* node */}
       <motion.span
