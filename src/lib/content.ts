@@ -39,7 +39,7 @@ export const hero = {
   line2: "it wasn't",
   line3: "normal.",
   line4: "So I made it normal.",
-  sub: "The first Pakistani woman to hold an FIA racing license — racing wheel-to-wheel, fighting cancer in the lab, and building the next generation of drivers at Box Motorsports.",
+  sub: "The first Pakistani woman to hold an FIA racing license — racing wheel-to-wheel, fighting cancer as a clinical researcher, and building the next generation of drivers at Box Motorsports.",
   ctaPrimary: { label: "Work with me", href: "#connect" },
   ctaSecondary: { label: "The journey", href: "#journey" },
 };
