@@ -16,21 +16,27 @@ export default function Intro() {
   const [done, setDone] = useState(false);
   const [lit, setLit] = useState(0); // how many lights are on
   const [out, setOut] = useState(false); // "lights out" moment
+  const [reduce, setReduce] = useState(false);
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setDone(true);
-      return;
-    }
+    const r = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setReduce(r);
     document.body.style.overflow = "hidden";
     const timers: number[] = [];
-    // ignite lights one by one (deliberate pacing)
-    for (let i = 1; i <= 5; i++) {
-      timers.push(window.setTimeout(() => setLit(i), 500 + i * 320));
+
+    if (r) {
+      // Reduce-motion: still hold the moment (no animation), then fade out.
+      setLit(5);
+      timers.push(window.setTimeout(() => setDone(true), 1600));
+    } else {
+      // ignite lights one by one (deliberate pacing)
+      for (let i = 1; i <= 5; i++) {
+        timers.push(window.setTimeout(() => setLit(i), 500 + i * 320));
+      }
+      // hold on full grid, then lights out, then lift the curtain
+      timers.push(window.setTimeout(() => setOut(true), 2700));
+      timers.push(window.setTimeout(() => setDone(true), 3100));
     }
-    // hold on full grid, then lights out, then lift the curtain
-    timers.push(window.setTimeout(() => setOut(true), 2700));
-    timers.push(window.setTimeout(() => setDone(true), 3100));
     return () => timers.forEach(clearTimeout);
   }, []);
 
@@ -43,8 +49,8 @@ export default function Intro() {
       {!done && (
         <motion.div
           className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-carbon"
-          exit={{ y: "-100%" }}
-          transition={{ duration: 0.9, ease }}
+          exit={reduce ? { opacity: 0 } : { y: "-100%" }}
+          transition={{ duration: reduce ? 0.5 : 0.9, ease }}
         >
           {/* red ambient glow */}
           <div
