@@ -178,15 +178,12 @@ export const gallery = {
   sub: "On the grid, behind the wheel, off the clock — the story in frames.",
   // Editorial mosaic. span: big = 2x2, wide = 2x1, tall = 1x2 (portrait).
   shots: [
-    { label: "On the limit", src: "/photos/driving-wide.jpg", span: "big" },
+    { label: "Visor down", src: "/photos/helmet.jpg", span: "big" },
     { label: "Suited up", src: "/photos/portrait-studio.jpg", span: "tall" },
-    { label: "On the grid", src: "/photos/track-helmet.jpg", span: "tall" },
     { label: "Flat out", src: "/photos/racing-action.jpg", span: "tall" },
+    { label: "Eyes forward", src: "/photos/mirror-eyes.jpg", span: "big" },
     { label: "In the paddock", src: "/photos/paddock.jpg", span: "tall" },
-    { label: "Eyes forward", src: "/photos/mirror-eyes.jpg", span: "wide" },
-    { label: "In the cockpit", src: "/photos/cockpit-look.jpg", span: "tall" },
-    { label: "In the lab", src: "/photos/researcher.jpg", span: "tall" },
-    { label: "Trackside", src: "/photos/desert-lean.jpg", span: "tall" },
+    { label: "Open road", src: "/photos/aston-profile.jpg", span: "tall" },
     { label: "Off the clock", src: "/photos/smile-closeup.jpg", span: "tall" },
   ],
 };
