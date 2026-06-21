@@ -4,58 +4,96 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 /**
- * Cinematic intro — a brief name reveal that wipes up to expose the hero.
- * Runs once per load, click-to-skip, and is disabled for reduced-motion.
+ * PRELOADER — an F1 grid start.
+ * Rendered in the initial HTML (no flash of the page behind it), then:
+ * "Arshia." appears, five red lights ignite one-by-one, a rev line fills,
+ * then LIGHTS OUT → the curtain wipes up to reveal the site.
+ * Click to skip; reduced-motion dismisses instantly.
  */
 const ease = [0.76, 0, 0.24, 1] as const;
 
 export default function Intro() {
-  const [show, setShow] = useState(true);
-  const [armed, setArmed] = useState(false);
+  const [done, setDone] = useState(false);
+  const [lit, setLit] = useState(0); // how many lights are on
+  const [out, setOut] = useState(false); // "lights out" moment
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setShow(false);
+      setDone(true);
       return;
     }
-    setArmed(true);
     document.body.style.overflow = "hidden";
-    const t = setTimeout(() => setShow(false), 2000);
-    return () => clearTimeout(t);
+    const timers: number[] = [];
+    // ignite lights one by one
+    for (let i = 1; i <= 5; i++) {
+      timers.push(window.setTimeout(() => setLit(i), 350 + i * 230));
+    }
+    // lights out, then lift the curtain
+    timers.push(window.setTimeout(() => setOut(true), 1850));
+    timers.push(window.setTimeout(() => setDone(true), 2150));
+    return () => timers.forEach(clearTimeout);
   }, []);
 
   useEffect(() => {
-    if (!show) document.body.style.overflow = "";
-  }, [show]);
-
-  if (!armed) return null;
+    if (done) document.body.style.overflow = "";
+  }, [done]);
 
   return (
     <AnimatePresence>
-      {show && (
+      {!done && (
         <motion.div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-carbon"
-          onClick={() => setShow(false)}
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-carbon"
+          onClick={() => setDone(true)}
           exit={{ y: "-100%" }}
           transition={{ duration: 0.9, ease }}
         >
-          <div className="overflow-hidden px-6 text-center">
-            <motion.div
-              className="eyebrow mb-4"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-            >
-              First Pakistani woman · FIA
-            </motion.div>
-            <motion.h1
-              className="font-display text-6xl leading-[0.9] sm:text-8xl"
-              initial={{ y: "110%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.8, ease }}
-            >
+          {/* red ambient glow */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(50% 40% at 50% 45%, var(--accent-glow), transparent 70%)",
+            }}
+          />
+
+          <div className="relative flex flex-col items-center px-6">
+            <span className="eyebrow mb-5">First Pakistani woman · FIA</span>
+            <h1 className="font-display text-6xl leading-none sm:text-8xl">
               Arshia<span className="text-accent">.</span>
-            </motion.h1>
+            </h1>
+
+            {/* F1 start lights */}
+            <div className="mt-8 flex items-center gap-3">
+              {Array.from({ length: 5 }).map((_, i) => {
+                const on = !out && lit > i;
+                return (
+                  <span
+                    key={i}
+                    className="h-4 w-4 rounded-full transition-all duration-200"
+                    style={{
+                      background: on ? "var(--accent)" : "rgba(255,255,255,0.08)",
+                      boxShadow: on ? "0 0 14px var(--accent)" : "none",
+                    }}
+                  />
+                );
+              })}
+            </div>
+
+            {/* rev line */}
+            <div className="mt-7 h-px w-48 overflow-hidden bg-line">
+              <motion.div
+                className="h-full bg-accent"
+                style={{ transformOrigin: "left" }}
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: out ? 1 : lit / 5 }}
+                transition={{ duration: 0.3, ease }}
+              />
+            </div>
+
+            <span className="label-mono mt-5 text-muted">
+              {out ? "lights out — go" : "on the grid"}
+            </span>
           </div>
         </motion.div>
       )}
